@@ -1,16 +1,20 @@
 # -*-coding:Latin-1 -*
 #from Definitions import LOCK_UNLOCK,LOCK_NEW,LOCK_LOCK
+from Definitions import *
 
 class Action:
 	""" Classe qui va gérer les actionneurs hors propulsion
 	...
 	"""
 	
-	def __init__(self):
+	def __init__(self,rob,sens):
 		#valeurs d'init
 		self.StateDoor = 0 #état actuel de la porte
 		self.StateDoorReq = 0 # état demandé par la strategie
 		self.CntDoor = 0 # compteur utilisé dans la machine d'état de la porte
+		self.robot=rob
+		self.sensor=sens
+		
 		#self.lock = LOCK_UNLOCK
 		
 	def ActionState(self):

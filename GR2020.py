@@ -3,6 +3,8 @@
 """ Programme principal du robot 2020
 dans ce fichier on gère les differentes tâches (AU, Sequence, etc...)
 """
+global asserv, robot, sensor, action, position
+
 import Robot
 import Position
 import Asserv
@@ -14,16 +16,18 @@ from Definitions import *
 from threading import Thread
 from Strategy import *
 
-global asserv, robot, sensor, action, position
 
-#On définit toutes les classes utiles
-asserv = Asserv.Asserv()
+#On définit toutes les classes utiles, dans l'ordre car elles sont interdépendantes
+
 robot=Robot.Robot()
-position=Position.Position()
-sensor=Sensor.Sensor()
-action = Action.Action()
+sensor=Sensor.Sensor(robot)
+action = Action.Action(robot,sensor)
+position=Position.Position(robot,sensor)
+asserv = Asserv.Asserv(position,robot)
+mov = MoveManager.MoveManager(asserv,robot)
 temps = time.time()
 
+print('mov = ',mov.id)
 #Définition du thread de gestion du temps de match, de la tirette et du BAU
 class DureeMatch(Thread):
 	""" Tread chargé de gérer la duree du match et le bouton d'arrêt d'urgence"""
@@ -76,7 +80,7 @@ class Sequence(Thread):
 			# juste après la tirette
 			top = time.time()
 			print('.', end='')
-			print('posx=',position.X)
+			#print('posx=',position.X)
 			sensor.ReadEncoder()
 			sensor.LectureTCHMUX()
 			position.CalculPosition()
@@ -109,9 +113,12 @@ time.sleep(1) # test d'attente tirette pdt 1s
 sensor.Tirette=False
 while sensor.Tirette == True:
 	time.sleep(0.02)
-match = MatchRobot(asserv)
+	#definition du thread de match et lancement
+print('mov = ',mov.id)
+match = MatchRobot(mov,asserv,robot,action)
+#initRobot()
 match.start() 
-
+print('mov = ',mov.id)
 # on lance le thread du match principal
 
 time.sleep(1)

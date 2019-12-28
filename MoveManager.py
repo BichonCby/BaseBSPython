@@ -2,7 +2,7 @@
 """ fonctions de la stratégie"""
 #import Asserv
 #from .context import asserv
-#from  Definitions import *
+from  Definitions import *
 #from GR2020 import asserv
 
 class MoveManager:
@@ -10,15 +10,30 @@ class MoveManager:
 	...
 	"""
 	
-	def __init__(self,ass):
+	def __init__(self,ass,rob):
 		#valeurs d'init
-		self.asserv = ass
-		
-	def GoFor(self,x,y,tmin,tmax):
+		self.id = 'move'
+		self.a=ass
+		self.robot=rob
 		pass
-		self.asserv.TgtX = x
-	
-	
+	def GoFor(self,x,y,tmin,tmax):
+		#on va au point déterminé en marche avant
+		pass
+		self.a.TgtX = x
+		self.a.TgtY = y
+		self.a.Type = 'Auto'
+	def GoBack(self,x,y,tmin,tmax):
+		#on va au point déterminé, en marche arrière
+		pass  #a compléter
+	def DontMove(self,tmin):
+		#on ne bouge pas
+		self.a.Type = 'Nul'
+	def Rotate(self,acible):
+		self.a.Type = 'Rotation'
+	def MoveManu(self,speed,tmax):
+		self.a.Type= 'Manu'
+		
+		
 		""" Lock
 		Type_depl = AV
 		cibleX=x

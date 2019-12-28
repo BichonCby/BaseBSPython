@@ -1,17 +1,19 @@
 # -*-coding:Latin-1 -*
+from Definitions import *
 
 class Sensor:
 	""" Classe qui va gérer les capteurs
 	...
 	"""
 	
-	def __init__(self):
+	def __init__(self,rob):
 		#valeurs d'init
 		self.Tirette=True
 		self.BAU = False
 		self.bouton=True
 		self.EncoderRight = 0
 		self.EncoderLeft = 0
+		self.robot = rob
 		
 	def LectureTCHMUX(self):
 		self.bouton = False

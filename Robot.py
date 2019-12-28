@@ -1,5 +1,6 @@
 # -*-coding:Latin-1 -*
-
+from Definitions import *
+#from GR2020 import robot
 class Robot:
 	""" Classe qui va gére les robot, se particularités, et le match aussi
 	on va avoir les dimension (utile?) la couleur, le temps de match...
