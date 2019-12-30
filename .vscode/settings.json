@@ -1,0 +1,7 @@
+{
+    "files.eol": "\n",
+    "ev3devBrowser.download.exclude": "{**/.*,LICENSE,README.md}",
+    "terminal.integrated.shell.windows": "cmd.exe",
+    "ev3devBrowser.additionalDevices": [{"name": "ev3dev1","ipAddress": "169.254.54.197"}],
+    "python.venvPath": "D:/Robotique/Python/ev3dev-lang-python-ev3dev-stretch/ev3dev2"
+}

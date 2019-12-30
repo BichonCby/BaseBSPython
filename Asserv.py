@@ -1,16 +1,23 @@
 # -*-coding:Latin-1 -*
+import sys
+import os
+
 from Definitions import *
 
+#if sys.platform != 'win32':
+#from ev3dev2.motor import OUTPUT_B
+from  ev3dev2.motor import OUTPUT_B
+
 class Asserv:
-	""" Classe qui va gérer l'asservissement du robot.
-	la fonction CalculAsserv va être appelée de manière récursive par l'extérieur
-	elle va faire appel à différentes sous fonctions (génération trajectoire, etc..)
-	la finalité est de piloter les moteurs de propulsion (BO/BF)
+	""" Classe qui va gï¿½rer l'asservissement du robot.
+	la fonction CalculAsserv va ï¿½tre appelï¿½e de maniï¿½re rï¿½cursive par l'extï¿½rieur
+	elle va faire appel ï¿½ diffï¿½rentes sous fonctions (gï¿½nï¿½ration trajectoire, etc..)
+	la finalitï¿½ est de piloter les moteurs de propulsion (BO/BF)
 	"""
 	def GenerateVirtualSpeed(self):
-		#détermination des consignes d'avance et de rotation
-		
-		#selon le type, on définit la distance et l'angle restant
+		#dï¿½termination des consignes d'avance et de rotation
+
+		#selon le type, on dï¿½finit la distance et l'angle restant
 		if self.Type is 'Auto':
 			self.Distance = 50
 		elif self.Type is 'Nul':
@@ -18,11 +25,12 @@ class Asserv:
 		self.Angle = 5
 		# puis les consignes d'avance et de rotation
 		self.SpdAvCns = 3*self.Distance #le PID
+		print('toto')
 		self.SpdRotCns = 5*self.Angle #le PID
-		
+		#print('sys = ',sys.path)
 		self.Converge = True
 	def DriveWheels(self):
-		#détermination des consignes droite et gauche et pilotage des moteurs
+		#dï¿½termination des consignes droite et gauche et pilotage des moteurs
 		self.SpdWhlRightCns+=1
 		self.SpdWhlLeftCns+=2
 		print('Tgtx=',self.TgtX)
@@ -32,12 +40,12 @@ class Asserv:
 		#il faut rajouter des temps des confirmation
 		self.Blocage = not self.Blocage
 	def CalculAsserv(self):
-		#appel séquentiel
+		#appel sï¿½quentiel
 		self.GenerateVirtualSpeed()
 		self.DriveWheels()
 	def __init__(self,pos,rob):
 		self.Converge = False
-		self.Distance = 0 #distance restant à parcourir
+		self.Distance = 0 #distance restant ï¿½ parcourir
 		self.Angle = 0
 		self.SpdAvCns = 0
 		self.SpdRotCns = 0
