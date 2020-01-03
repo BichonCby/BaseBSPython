@@ -2,7 +2,7 @@
 # -*-coding:Latin-1 -*
 
 """ Programme principal du robot 2020
-dans ce fichier on g�re les differentes t�ches (AU, Sequence, etc...)
+dans ce fichier on gère les differentes tâches (AU, Sequence, etc...)
 """
 global asserv, robot, sensor, action, position
 
@@ -22,9 +22,9 @@ from ev3dev2.led import Leds
 #On definit toutes les classes utiles, dans l'ordre car elles sont interdependantes
 
 robot=Robot.Robot()
-sensormgt=SensorMgt.SensorMgt(robot)
-action = Action.Action(robot,sensormgt)
-position=Position.Position(robot,sensormgt)
+sensorMgt=SensorMgt.SensorMgt(robot)
+action = Action.Action(robot,sensorMgt)
+position=Position.Position(robot,sensorMgt)
 asserv = Asserv.Asserv(position,robot)
 mov = MoveManager.MoveManager(asserv,robot)
 temps = time.time()
@@ -39,43 +39,43 @@ class DureeMatch(Thread):
         self.debut=time.time()
 
     def run(self):
-        """le code � executer"""
+        """le code à executer"""
         print('debut du programme')
-        while sensor.Tirette == True:
+        while sensorMgt.Tirette == True:
             time.sleep(0.1)
         # on est en match
         debut = time.time()
         print('debut du match')
         robot.MatchEnCours = True
         top = time.time()
-        while top-debut < 100 and sensor.BAU == False:
+        while top-debut < 100 and sensorMgt.BAU == False:
             time.sleep(0.1)
             top = time.time()
         robot.MatchEnCours = False
         print('fin du match')
 
 class Sequence(Thread):
-    """ Tread charg� de lancer les fonctions r�currentes"""
+    """ Tread chargé de lancer les fonctions récurrentes"""
 
     def __init__(self):
         Thread.__init__(self)
         self.cptseq = 0
 
     def run(self):
-        """ Le code � executer quand le thread est lanc� """
+        """ Le code à executer quand le thread est lancé """
         while robot.MatchEnCours == False:
             # avant la tirette
             top = time.time()
             print('.', end='')
             position.CalculPosition()
-            sensor.ReadTCHMUX()
+            sensorMgt.ReadTCHMUX()
             action.ActionState()
             self.cptseq = self.cptseq+1
             if self.cptseq == 10:# une fois sur x, pour all�ger
                 self.cptseq = 0
                 robot.DisplayScore()
             pass # rajouter tout ce qui doit se passer avant la tirette, penser aux tests actionneurs
-            time.sleep(robot.StepTime - (time.time()-top))
+            time.sleep(max(0,robot.StepTime - (time.time()-top)))
         # ####################################""
         # le match a commenc�
         while robot.MatchEnCours == True:
@@ -83,13 +83,13 @@ class Sequence(Thread):
             top = time.time()
             print('.', end='')
             #print('posx=',position.X)
-            sensor.ReadEncoder()
-            sensor.ReadTCHMUX()
+            sensorMgt.ReadEncoder()
+            sensorMgt.ReadTCHMUX()
             position.CalculPosition()
             asserv.CalculAsserv()
             pass # rajouter tout ce qui doit se passer pendant le match
             self.cptseq = self.cptseq+1
-            if self.cptseq == 10:# une fois sur x, pour all�ger
+            if self.cptseq == 10:# une fois sur x, pour alléger
                 self.cptseq = 0
                 robot.DisplayScore()
             # if faut faire un test pour voir si on tient les 20ms
@@ -97,15 +97,15 @@ class Sequence(Thread):
         # ####################################""
         # le match est termin�
         robot.DisplayScore()
-        while sensor.Tirette == False:
+        while sensorMgt.Tirette == False:
             # on n'arr�te le programme que si on remet la tirette
-            time.sleep(1);# on n'est pas � une seconde pr�s
+            time.sleep(1);# on n'est pas à une seconde près
 
 
 """ maintenant on lance le vrai programme"""
 
-sensor.ReadTCHMUX()
-# cr�ation du thread
+sensorMgt.ReadTCHMUX()
+# création du thread
 Duree = DureeMatch()
 Seq = Sequence()
 #lancement du thread de temps de match
@@ -113,8 +113,8 @@ Duree.start()
 Seq.start()
 InitRobot() # phase d'init, tests actionneurs
 time.sleep(1) # test d'attente tirette pdt 1s
-sensor.Tirette=False
-while sensor.Tirette == True:
+sensorMgt.Tirette=False
+while sensorMgt.Tirette == True:
     time.sleep(0.02)
     #definition du thread de match et lancement
 print('mov = ',mov.id)
@@ -128,11 +128,12 @@ print('mov = ',mov.id)
 # pour les tests, on garde la suite, sinon on fera une boucle infinie
 time.sleep(1)
 position.SetPosition(20,30,25)
+mov.GoFor(2000,3000,10,200)
 #m = LargeMotor(OUTPUT_B)
 #m.on_for_rotations(SpeedPercent(75), 5)
 leds = Leds()
 leds.set_color("LEFT", "RED")
-sensor.BAU = True
+sensorMgt.BAU = True
 time.sleep(1)
-sensor.Tirette=True
+sensorMgt.Tirette=True
 #time.sleep(10)

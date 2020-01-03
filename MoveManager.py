@@ -21,7 +21,7 @@ class MoveManager:
         pass
         self.a.TgtX = x
         self.a.TgtY = y
-        self.a.Type = 'Auto'
+        self.a.Type = 'Polar'
     def GoBack(self,x,y,tmin,tmax):
         #on va au point d�termin�, en marche arri�re
         pass  #a compl�ter
