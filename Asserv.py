@@ -60,7 +60,7 @@ class Asserv:
         elif self.Type == 'Manu':
             self.SpdWhlLeftCns = self.ManuLeft
             self.SpdWhlRightCns = self.ManuRight
-        else: #cas Polaire ou Polaire arrière
+        else:  #cas Polaire ou Polaire arrière
             #on peut appliquer une rampe et des saturation
             self.SpdWhlLeftCns=self.SpdAvCns-self.SpdRotCns
             self.SpdWhlRightCns=self.SpdAvCns+self.SpdRotCns
