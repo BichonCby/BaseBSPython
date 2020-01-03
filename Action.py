@@ -13,7 +13,7 @@ class Action:
         self.StateDoorReq = 0 # �tat demand� par la strategie
         self.CntDoor = 0 # compteur utilis� dans la machine d'�tat de la porte
         self.robot=rob
-        self.sensor=sens
+        self.sensorMgt=sens
 
         #self.lock = LOCK_UNLOCK
 

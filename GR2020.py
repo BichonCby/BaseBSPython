@@ -10,7 +10,7 @@ import Robot
 import Position
 import Asserv
 import time
-import Sensor
+import SensorMgt
 import Action
 import MoveManager
 from Definitions import *
@@ -22,9 +22,9 @@ from ev3dev2.led import Leds
 #On definit toutes les classes utiles, dans l'ordre car elles sont interdependantes
 
 robot=Robot.Robot()
-sensor=Sensor.Sensor(robot)
-action = Action.Action(robot,sensor)
-position=Position.Position(robot,sensor)
+sensormgt=SensorMgt.SensorMgt(robot)
+action = Action.Action(robot,sensormgt)
+position=Position.Position(robot,sensormgt)
 asserv = Asserv.Asserv(position,robot)
 mov = MoveManager.MoveManager(asserv,robot)
 temps = time.time()

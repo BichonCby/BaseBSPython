@@ -17,7 +17,7 @@ class Position:
         angle est en degr� (flottant) absolu (non relatif)
         """
         self.robot=rob
-        self.sensor=sens
+        self.sensorMgt=sens
         self.EncoderRightOld = 0
         self.EncoderLeftOld = 0
         # on d�clare les variables de la classe
@@ -29,13 +29,13 @@ class Position:
         # Tous les calculs sont fait ici ou dans des sous fonctions, invisibles par le reste du programe
         # A la fin de la fonction, on dot avoir un nouveau X, Y et angle
         # on calcule aussi une vitesse brute (ou pas)
-        self.sensor.ReadEncoder()
-        deltaRight = self.sensor.EncoderRight - self.EncoderRightOld
+        self.sensorMgt.ReadEncoder()
+        deltaRight = self.sensorMgt.EncoderRight - self.EncoderRightOld
         if deltaRight > 180:#débordement
             deltaRight -= 360
         elif deltaRight < -180:
             deltaRight += 360
-        deltaLeft = self.sensor.EncoderLeft - self.EncoderLeftOld
+        deltaLeft = self.sensorMgt.EncoderLeft - self.EncoderLeftOld
         if deltaLeft > 180:#débordement
             deltaLeft -= 360
         elif deltaLeft < -180:
@@ -56,8 +56,8 @@ class Position:
         deltaY = (deltaRight+deltaLeft)*sin((self.angle-delta/2)*pi/180)*CONV_MM
         self.Y += deltaY
         #mémorisation des positions des capteurs
-        self.EncoderLeftOld = self.sensor.EncoderLeft
-        self.EncoderRightOld = self.sensor.EncoderRight
+        self.EncoderLeftOld = self.sensorMgt.EncoderLeft
+        self.EncoderRightOld = self.sensorMgt.EncoderRight
 
     def SetPosition(self,x=-1000,y=-1000,angle=-1000):
         # red�finit la position du robot, par exemple suite � un recalage
