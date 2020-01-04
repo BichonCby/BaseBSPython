@@ -37,14 +37,22 @@ class Asserv:
             else:
                 absAngle = self.position.angle
             self.DeltaAngle = AngleNorm(absAngle-self.position.angle)
-
-            #self.Distance = 50
         elif self.Type == 'Nul':
             self.Distance = 25
-        #print('a =', str(self.Angle))
         # puis les consignes d'avance et de rotation
-        self.SpdAvCns = 3*self.Distance #le PID
-        self.SpdRotCns = 5*self.DeltaAngle #le PID
+        if abs(self.DeltaAngle) > 30: #on est trop tourné, il faut se mettre dans l'axe d'abord
+            #TODO mettre une carto pour le coef Distance, en fonction de l'angle
+            self.SpdAvCns = 0
+        elif abs(self.DeltaAngle) > 15: # on est pas loin de l'axe, on avance quand même
+            self.SpdAvCns = KP_AVANCE*self.Distance*(2-2*self.DeltaAngle/300)
+        else:#on est quasi dans l'axe, on avance
+            self.SpdAvCns = KP_AVANCE*self.Distance
+        self.SpdRotCns = KP_ROTATION*self.DeltaAngle
+
+        #saturation des vitesses
+        #TODO : définir si besoin d'une vitesse max négative pour l'avance
+        self.SpdAvCns = max(-self.SpdAvMax, min(self.SpdAvMax,self.SpdAvCns))
+        self.SpdRotCns = max(-self.SpdRotMax, min(self.SpdRotMax,self.SpdRotCns))
         #print('sys = ',sys.path)
         #Determination de la convergence
         self.Converge = False
@@ -80,6 +88,8 @@ class Asserv:
         self.DeltaAngle = 0
         self.SpdAvCns = 0
         self.SpdRotCns = 0
+        self.SpdAvMax = 50
+        self.SpdRotMax = 10
         self.SpdWhlRightCns = 0
         self.SpdWhlLeftCns=0
         self.ManuLeft=0

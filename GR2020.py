@@ -77,7 +77,7 @@ class Sequence(Thread):
             pass # rajouter tout ce qui doit se passer avant la tirette, penser aux tests actionneurs
             time.sleep(max(0,robot.StepTime - (time.time()-top)))
         # ####################################""
-        # le match a commenc�
+        # le match a commencé
         while robot.MatchEnCours == True:
             # juste apr�s la tirette
             top = time.time()

@@ -6,7 +6,7 @@ from  Definitions import *
 #from GR2020 import asserv
 
 class MoveManager:
-    """ Classe qui va g�rer les deplacements
+    """ Classe qui va gérer les deplacements
     ...
     """
 

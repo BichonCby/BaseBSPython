@@ -3,15 +3,17 @@
 from Definitions import *
 
 class Action:
-    """ Classe qui va g�rer les actionneurs hors propulsion
+    """ Classe qui va gérer les actionneurs hors propulsion
     ...
     """
 
     def __init__(self,rob,sens):
         #valeurs d'init
-        self.StateDoor = 0 #�tat actuel de la porte
+        self.StateRightDoor = 0 #�tat actuel de la porte
         self.StateDoorReq = 0 # �tat demand� par la strategie
-        self.CntDoor = 0 # compteur utilis� dans la machine d'�tat de la porte
+        self.CntRightDoor = 0 # compteur utilis� dans la machine d'�tat de la porte
+        self.StateLeftDoor = 0 #�tat actuel de la porte
+        self.CntLeftDoor = 0 # compteur utilis� dans la machine d'�tat de la porte
         self.robot=rob
         self.sensorMgt=sens
 
@@ -21,20 +23,54 @@ class Action:
         #if self.lock == LOCK_NEW:
         #    self.StateDoor=self.StateDoorReq
         #    self.lock = LOCK_UNLOCK
-        if self.StateDoor == 0:
+        ## Porte droite
+        if self.StateRightDoor == 'Stop':
             #on arr�te le moteur
+            #TODO : arrêter le moteur
             pass
-        elif self.StateDoor == 1:
+        elif self.StateRightDoor == 'Open':
             #on lance le moteur et on commence � compter
-            self.CntDoor+=1
-            if CntDoor > 5:
-                self.StateDoor = 2
-            pass
-        elif sef.StateDoor == 2:
+            #TODO : activer le moteur
+            self.CntRightDoor+=1
+            if self.CntRightDoor > self.CntDoorMax:
+                self.StateRightDoor = 'Stop'
+        elif self.StateRightDoor == 'Close':
+            #on lance le moteur et on commence � compter
+            #TODO : activer le moteur
+            self.CntRightDoor+=1
+            if self.CntRightDoor > self.CntDoorMax:
+                self.StateRightDoor = 'Stop'
             pass
         else:
             pass
-    def OpenDoor(self):
+        ## Porte gauche
+        if self.StateLeftDoor == 'Stop':
+            #on arr�te le moteur
+            #TODO : arrêter le moteur
+            pass
+        elif self.StateLeftDoor == 'Open':
+            #on lance le moteur et on commence � compter
+            #TODO : activer le moteur
+            self.CntLeftDoor+=1
+            if self.CntLeftDoor > self.CntDoorMax:
+                self.StateLeftDoor = 'Stop'
+        elif self.StateLeftDoor == 'Close':
+            #on lance le moteur et on commence � compter
+            #TODO : activer le moteur
+            self.CntLeftDoor+=1
+            if self.CntLeftDoor > self.CntDoorMax:
+                self.StateLeftDoor = 'Stop'
+            pass
+        else:
+            pass
+        #TODO : voir si on gère la couleur ici ou en amont
+    def OpenDoor(self, side):
+        if side == 'Right':
+            self.StateRightDoor = 'Open'
+            self.CntRightDoor = 0
+        if side == 'Left':
+            self.StateLeftDoor = 'Open'
+            self.CntLeftDoor = 0
         #self.lock=LOCK_MODIFY
         #self.StateDoorReq = DOOR_OPEN
         #self.lock=LOCK_NEW

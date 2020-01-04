@@ -33,5 +33,5 @@ class MatchRobot(Thread):
         time.sleep(0.5)
         self.m.GoBack(300,200,10,1000)
     def VaChercherBonheur(self):
-        self.act.OpenDoor()
+        self.act.OpenDoor('Right')
         self.m.DontMove(100)
