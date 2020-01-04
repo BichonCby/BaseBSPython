@@ -4,7 +4,7 @@
 #from .context import asserv
 from  Definitions import *
 #from GR2020 import asserv
-
+#
 class MoveManager:
     """ Classe qui va gérer les deplacements
     ...
