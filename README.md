@@ -20,15 +20,25 @@ une fois les modifications faites sur Visual
 
 # liste des pages utiles
 https://github.com/BichonCby/BaseBSPython
+
 https://github.com/ev3dev/vscode-ev3dev-browser
+
 https://github.com/ev3dev
+
 https://marketplace.visualstudio.com/items?itemName=ev3dev.ev3dev-browser
+
 https://code.visualstudio.com/docs/?dv=win64
+
 https://github.com/ev3dev/ev3dev-lang-python/tree/ev3dev-stretch/ev3dev2
+
 https://ev3dev-lang.readthedocs.io/projects/python-ev3dev/en/stable/sensors.html
+
 http://docs.ev3dev.org/projects/lego-linux-drivers/en/ev3dev-jessie/sensors.html
+
 https://github.com/ev3dev/lego-linux-drivers/blob/89bde527d77ada5efad10a3b3d6a737c67e982ff/sensors/nxt_i2c_sensor_defs.c
+
 https://python-ev3dev.readthedocs.io/en/ev3dev-stretch/sensors.html
+
 https://github.com/ev3dev/ev3dev-lang-python/blob/ev3dev-stretch/ev3dev2/motor.py
 
 # Architecture des fichiers
