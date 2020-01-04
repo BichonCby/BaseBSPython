@@ -20,6 +20,7 @@ from ev3dev2.motor import OUTPUT_B,LargeMotor
 from ev3dev2.led import Leds
 
 #ok
+#
 #On definit toutes les classes utiles, dans l'ordre car elles sont interdependantes
 
 robot=Robot.Robot()
