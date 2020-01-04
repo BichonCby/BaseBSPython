@@ -14,6 +14,7 @@ ANGLE_CONVERGENCE = 2
 DISTANCE_CONVERGENCE = 20
 KP_AVANCE = 10
 KP_ROTATION = 0.3
+test = 1
 ''' Fonctions utilitaires
 '''
 
