@@ -1,5 +1,11 @@
 # -*-coding:Latin-1 -*
+from ev3dev2  import get_current_platform
 from Definitions import *
+if get_current_platform() != 'fake':
+    from ev3dev2.display import Display
+    import ev3dev2.fonts as fonts
+
+
 #from GR2020 import robot
 class Robot:
     """ Classe qui va g�re les robot, se particularit�s, et le match aussi
@@ -15,14 +21,34 @@ class Robot:
         self.MatchEnCours = False
         self.Score = 10
         self.StepTime = 0.02 # pas de calcul de la s�quence
+        self.platform = get_current_platform()
+        if self.platform != 'fake':
+            self.display = Display()
+            self.myfont = fonts.load('charBI24')
     def SetColor(self,coul):
         if coul == 'blue' or coul == 'yellow':
             self.Color = coul
         else:
             print('S�rieux?, mais tu connais pas les couleurs de cette ann�e ou quoi???')
     def DisplayScore(self):
-        print('score = ',self.Score)
+        #print('score = ',self.Score)
         pass
+    def DisplayPos(self,x,y,alpha):
+        if self.platform == 'fake':
+            pass
+            #print('x, y, a =',str(x),str(y),str(alpha))
+        else:
+            self.display.clear()
+            txt = 'x='+str(int(x))
+            self.display.text_grid(txt,False,2,1,font=self.myfont)
+            txt = 'y='+str(int(y))
+            self.display.text_grid(txt,False,2,3,font=self.myfont)
+            txt = 'a='+str(int(alpha))
+            self.display.text_grid(txt,False,2,5,font=self.myfont)
+            self.display.update()
+            pass
+
+
 #Test de la classe
 if __name__ == "__main__":
     r=Robot()

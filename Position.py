@@ -7,40 +7,48 @@ from math import cos, sin, pi
 #sensor.Tirette
 
 class Position:
-    """ Classe permettant de calculer la position du robot � partir de ses codeurs, ou d'ailleurs
+    """ Classe permettant de calculer la position du robot à partir de ses codeurs, ou d'ailleurs
     la fonction principale est CalculPosition
-    Mais d'autres fonctions peuvent permette de r�cup�rer la position, la vitesse, etc...
+    Mais d'autres fonctions peuvent permette de récupérer la position, la vitesse, etc...
     """
     def __init__(self,rob,sens):
         """Valeur d'init
         X et Y sont en mm, en position absolue par rapport au terrain
-        angle est en degr� (flottant) absolu (non relatif)
+        angle est en degré (flottant) absolu (non relatif)
         """
         self.robot=rob
         self.sensorMgt=sens
         self.EncoderRightOld = 0
         self.EncoderLeftOld = 0
-        # on d�clare les variables de la classe
+        # on déclare les variables de la classe
         self.X = 300.0
-        self.Y = 450.0
+        self.Y = 400.0
         self.angle = 0.0
+        self.init = True
 
     def CalculPosition(self):
         # Tous les calculs sont fait ici ou dans des sous fonctions, invisibles par le reste du programe
         # A la fin de la fonction, on dot avoir un nouveau X, Y et angle
         # on calcule aussi une vitesse brute (ou pas)
         self.sensorMgt.ReadEncoder()
-        deltaRight = self.sensorMgt.EncoderRight - self.EncoderRightOld
+        #print(str(self.sensorMgt.EncoderRight))
+        if self.init == True:
+            self.init=False
+            deltaRight = 0
+            deltaLeft = 0
+        else:
+            deltaRight = self.sensorMgt.EncoderRight - self.EncoderRightOld
+            deltaLeft = self.sensorMgt.EncoderLeft - self.EncoderLeftOld
+
         if deltaRight > 180:#débordement
             deltaRight -= 360
         elif deltaRight < -180:
             deltaRight += 360
-        deltaLeft = self.sensorMgt.EncoderLeft - self.EncoderLeftOld
         if deltaLeft > 180:#débordement
             deltaLeft -= 360
         elif deltaLeft < -180:
             deltaLeft += 360
-        CONV_DELTA_ANGLE = 0.5
+        CONV_DELTA_ANGLE = 6.32
         delta = (deltaRight-deltaLeft)/CONV_DELTA_ANGLE
         self.angle +=delta
         #normalisation de l'angle entre -180 et 180
@@ -50,7 +58,7 @@ class Position:
             self.angle -= 360.0
         self.angleRad = self.angle*pi/180
         #calcul des X et Y
-        CONV_MM = 3.2
+        CONV_MM = 0.1737
         deltaX = (deltaRight+deltaLeft)*cos((self.angle-delta/2)*pi/180)*CONV_MM
         self.X += deltaX
         deltaY = (deltaRight+deltaLeft)*sin((self.angle-delta/2)*pi/180)*CONV_MM

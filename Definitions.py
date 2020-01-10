@@ -13,8 +13,8 @@ DOOR_OPEN = 0
 ANGLE_CONVERGENCE = 2
 DISTANCE_CONVERGENCE = 20
 KP_AVANCE = 10
-KP_ROTATION = 0.3
-test = 1
+KP_ROTATION = 50
+
 ''' Fonctions utilitaires
 '''
 

@@ -18,9 +18,12 @@ from threading import Thread
 from Strategy import *
 from ev3dev2.motor import OUTPUT_B,LargeMotor
 from ev3dev2.led import Leds
+from ev3dev2 import get_current_platform
 
 #On definit toutes les classes utiles, dans l'ordre car elles sont interdependantes
-
+print('toto')
+#platform = get_current_platform()
+print(get_current_platform())
 robot=Robot.Robot()
 sensorMgt=SensorMgt.SensorMgt(robot)
 action = Action.Action(robot,sensorMgt)
@@ -66,10 +69,11 @@ class Sequence(Thread):
         while robot.MatchEnCours == False:
             # avant la tirette
             top = time.time()
-            print('.', end='')
+            #print('.', end='')
             position.CalculPosition()
             sensorMgt.ReadTCHMUX()
             action.ActionState()
+            robot.DisplayPos(position.X,position.Y,0)
             self.cptseq = self.cptseq+1
             if self.cptseq == 10:# une fois sur x, pour all�ger
                 self.cptseq = 0
@@ -81,11 +85,12 @@ class Sequence(Thread):
         while robot.MatchEnCours == True:
             # juste apr�s la tirette
             top = time.time()
-            print('.', end='')
+            #print('.', end='')
             #print('posx=',position.X)
             sensorMgt.ReadEncoder()
             sensorMgt.ReadTCHMUX()
             position.CalculPosition()
+            robot.DisplayPos(position.X,position.Y,position.angle)
             asserv.CalculAsserv()
             pass # rajouter tout ce qui doit se passer pendant le match
             self.cptseq = self.cptseq+1
@@ -127,8 +132,15 @@ print('mov = ',mov.id)
 
 # pour les tests, on garde la suite, sinon on fera une boucle infinie
 time.sleep(1)
-position.SetPosition(20,30,25)
-mov.GoFor(2000,3000,10,200)
+#position.SetPosition(20,30,25)
+#mov.GoFor(400,400,0.02,5)
+mov.GoFor(400,500,0.02,5)
+#mov.Rotate(90)
+#mov.MoveManu(50,100)
+#time.sleep(10)
+#mov.MoveManu(200,100)
+time.sleep(1)
+mov.DontMove(1)
 #m = LargeMotor(OUTPUT_B)
 #m.on_for_rotations(SpeedPercent(75), 5)
 leds = Leds()

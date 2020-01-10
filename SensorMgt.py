@@ -1,5 +1,7 @@
 # -*-coding:Latin-1 -*
 from Definitions import *
+from ev3dev2.sensor import *
+from AddSensors import AngleSensor
 
 class SensorMgt:
     """ Classe qui va g�rer les capteurs
@@ -14,13 +16,20 @@ class SensorMgt:
         self.EncoderRight = 0
         self.EncoderLeft = 0
         self.robot = rob
+        self.platform = get_current_platform()
+        if (self.platform != 'fake'):
+            self.EncoderSensRight = AngleSensor(INPUT_1)
+            self.EncoderSensLeft = AngleSensor(INPUT_2)
 
     def ReadTCHMUX(self):
         self.bouton = False
     def ReadEncoder(self):
         #lecture des capteurs de rotation pour la position
-        self.EncoderRight = 1
-        self.EncoderLeft = 1
+        if (self.platform != 'fake'):
+            self.EncoderRight = self.EncoderSensRight.value()
+            #inversion pour qu'en marche avant, les codeurs s'incrémente à droite et à gauche
+            self.EncoderLeft = 360-self.EncoderSensLeft.value()
+            pass
 
 #Test de la classe
 if __name__ == "__main__":

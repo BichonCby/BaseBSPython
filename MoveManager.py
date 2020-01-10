@@ -3,6 +3,7 @@
 #import Asserv
 #from .context import asserv
 from  Definitions import *
+import time
 #from GR2020 import asserv
 #
 class MoveManager:
@@ -22,6 +23,11 @@ class MoveManager:
         self.a.TgtX = x
         self.a.TgtY = y
         self.a.Type = 'Polar'
+        top = time.time()
+        #while time.time()-top <tmin:
+        #    pass #on attend le temps min de toute façon. ajouter la détection, non?
+        while self.a.Converge == False and time.time()-top < tmax:
+            pass # on attend la convergence ou le temps max
     def GoBack(self,x,y,tmin,tmax):
         #on va au point d�termin�, en marche arri�re
         pass  #a compl�ter
@@ -30,9 +36,13 @@ class MoveManager:
         self.a.Type = 'Nul'
     def Rotate(self,acible):
         self.a.Type = 'Rotation'
+        self.a.TgtAlpha = acible
+        while self.a.Converge == False:
+            pass # on attend la convergence ou le temps max
     def MoveManu(self,speed,tmax):
         self.a.Type= 'Manu'
-
+        self.a.ManuLeft = speed
+        self.a.ManuRight = speed
 
         """ Lock
         Type_depl = AV

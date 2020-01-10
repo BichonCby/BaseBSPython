@@ -7,7 +7,8 @@ from math import sqrt, asin
 #from Definitions import AngleNorm
 #if sys.platform != 'win32':
 #from ev3dev2.motor import OUTPUT_B
-from  ev3dev2.motor import OUTPUT_B
+from  ev3dev2.motor import OUTPUT_B, OUTPUT_A, LargeMotor
+from ev3dev2 import get_current_platform
 
 class Asserv:
     """ Classe qui va g�rer l'asservissement du robot.
@@ -37,8 +38,11 @@ class Asserv:
             else:
                 absAngle = self.position.angle
             self.DeltaAngle = AngleNorm(absAngle-self.position.angle)
+        elif self.Type == 'Rotation':
+            self.DeltaAngle = AngleNorm(self.TgtAlpha-self.position.angle)
+            self.Distance = 0
         elif self.Type == 'Nul':
-            self.Distance = 25
+            self.Distance = 0
         # puis les consignes d'avance et de rotation
         if abs(self.DeltaAngle) > 30: #on est trop tourné, il faut se mettre dans l'axe d'abord
             #TODO mettre une carto pour le coef Distance, en fonction de l'angle
@@ -72,6 +76,13 @@ class Asserv:
             #on peut appliquer une rampe et des saturation
             self.SpdWhlLeftCns=self.SpdAvCns-self.SpdRotCns
             self.SpdWhlRightCns=self.SpdAvCns+self.SpdRotCns
+        # Pilotage des moteurs
+        print('commande = ', str(self.SpdWhlRightCns))
+        if self.platform != 'fake':
+            self.MotorRight.speed_sp = -self.SpdWhlRightCns
+            self.MotorLeft.speed_sp = -self.SpdWhlLeftCns
+            self.MotorRight.run_forever()
+            self.MotorLeft.run_forever()
         #print('Tgtx=',self.TgtX)
     def DetermineBlocage(self):
         #si la vitesse est nulle alors que la consigne ne l'est pas
@@ -88,19 +99,26 @@ class Asserv:
         self.DeltaAngle = 0
         self.SpdAvCns = 0
         self.SpdRotCns = 0
-        self.SpdAvMax = 50
-        self.SpdRotMax = 10
+        self.SpdAvMax = 100
+        self.SpdRotMax = 100
         self.SpdWhlRightCns = 0
         self.SpdWhlLeftCns=0
-        self.ManuLeft=0
-        self.ManuRight=0
+        self.ManuLeft=500
+        self.ManuRight=500
         self.Blocage = False
         self.TgtX = 0
         self.TgtY = 0
+        self.TgtAlpha = 0
         self.Type = 'Nul';
         self.position = pos
         self.robot=rob
         #self.Type = MOVE_NUL
+        self.platform = get_current_platform()
+        if self.platform != 'fake':
+            self.MotorRight = LargeMotor(OUTPUT_A)
+            self.MotorLeft = LargeMotor(OUTPUT_B)
+            self.MotorLeft.run_forever()
+            self.MotorRight.run_forever()
 
 if __name__ == "__main__":
     a=Asserv()
