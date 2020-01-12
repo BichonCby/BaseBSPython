@@ -12,7 +12,7 @@ DOOR_OPEN = 0
 ''' Constantes d'asservissement'''
 ANGLE_CONVERGENCE = 2
 DISTANCE_CONVERGENCE = 20
-KP_AVANCE = 10
+KP_AVANCE = 6
 KP_ROTATION = 50
 
 ''' Fonctions utilitaires

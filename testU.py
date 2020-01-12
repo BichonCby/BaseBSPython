@@ -13,6 +13,7 @@ from AddSensors import AngleSensor
 from ev3dev2.sensor import *
 from ev3dev2.port import LegoPort
 from math import asin, pi
+from ev3dev2.sensor.lego import TouchSensor
 
 #from ev3dev2.sensor import Sensor
 #in1 = LegoPort(INPUT_1)
@@ -26,7 +27,7 @@ try:
     gyro1 = GyroSensor(INPUT_1)
 except:
     pass
-
+touch = TouchSensor(INPUT_3)
 ang = AngleSensor(INPUT_2)
 #t=ang.pollms()
 display = Display()
@@ -44,13 +45,14 @@ time.sleep(2)
 ecrit("tata")
 #test des moteurs
 
-m=LargeMotor(OUTPUT_B)
+'''m=LargeMotor(OUTPUT_B)
 m.speed_sp=500
 m.run_forever()
 time.sleep(2)
+'''
 top=time.time()
 
 while time.time()-top < 6:
-    ecrit('capteur :'+str(ang.value()))
+    ecrit('capteur :'+str(touch.value()))
     time.sleep(0.1)
 

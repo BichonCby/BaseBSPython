@@ -31,13 +31,19 @@ class Robot:
         else:
             print('S�rieux?, mais tu connais pas les couleurs de cette ann�e ou quoi???')
     def DisplayScore(self):
-        #print('score = ',self.Score)
+        if self.platform != 'fake':
+            #self.display.clear()
+            txt = 'score'
+            #self.display.text_grid(txt,False,2,1,font=self.myfont)
+            #self.display.update()
+            #print('score = ',self.Score)
         pass
     def DisplayPos(self,x,y,alpha):
         if self.platform == 'fake':
             pass
             #print('x, y, a =',str(x),str(y),str(alpha))
         else:
+
             self.display.clear()
             txt = 'x='+str(int(x))
             self.display.text_grid(txt,False,2,1,font=self.myfont)

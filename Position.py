@@ -21,8 +21,8 @@ class Position:
         self.EncoderRightOld = 0
         self.EncoderLeftOld = 0
         # on déclare les variables de la classe
-        self.X = 300.0
-        self.Y = 400.0
+        self.X = 0.0
+        self.Y = 0.0
         self.angle = 0.0
         self.init = True
 

@@ -77,12 +77,16 @@ class Asserv:
             self.SpdWhlLeftCns=self.SpdAvCns-self.SpdRotCns
             self.SpdWhlRightCns=self.SpdAvCns+self.SpdRotCns
         # Pilotage des moteurs
-        print('commande = ', str(self.SpdWhlRightCns))
+        #print('commande = ', str(self.SpdWhlRightCns))
         if self.platform != 'fake':
             self.MotorRight.speed_sp = -self.SpdWhlRightCns
             self.MotorLeft.speed_sp = -self.SpdWhlLeftCns
-            self.MotorRight.run_forever()
-            self.MotorLeft.run_forever()
+            if self.Type == 'Nul':
+                self.MotorLeft.stop()
+                self.MotorRight.stop()
+            else:
+                self.MotorRight.run_forever()
+                self.MotorLeft.run_forever()
         #print('Tgtx=',self.TgtX)
     def DetermineBlocage(self):
         #si la vitesse est nulle alors que la consigne ne l'est pas
@@ -99,8 +103,8 @@ class Asserv:
         self.DeltaAngle = 0
         self.SpdAvCns = 0
         self.SpdRotCns = 0
-        self.SpdAvMax = 100
-        self.SpdRotMax = 100
+        self.SpdAvMax = 300
+        self.SpdRotMax = 50
         self.SpdWhlRightCns = 0
         self.SpdWhlLeftCns=0
         self.ManuLeft=500

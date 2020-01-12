@@ -1,0 +1,12 @@
+régler odométrie
+vérifier la tirette
+faire une fonction d'évitement simple (on arrête)
+gérer les couleurs d'équipe (dans la position)
+méthode d'asservissement pivot
+méthode d'asservissement rotation manu (utile?)
+Gérer les blocages et recalages
+définir des vitesses en SI
+polling à 20ms (par une commande système os.system(blabla))
+faire une fonction carto
+faire une fonction de logging
+faire un simulateur de déplacement
