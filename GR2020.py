@@ -95,7 +95,6 @@ class Sequence(Thread):
             # juste apr�s la tirette
             top = time.time()
             #print(',', end='')
-            #print('posx=',position.X)
             sensorMgt.ReadEncoder()
             sensorMgt.ReadTCHMUX()
             position.CalculPosition()

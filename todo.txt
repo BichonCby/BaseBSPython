@@ -1,5 +1,6 @@
 régler odométrie
-vérifier la tirette
+vérifier la tirette => OK PC
+vérifier le watchdog
 faire une fonction d'évitement simple (on arrête)
 gérer les couleurs d'équipe (dans la position)
 méthode d'asservissement pivot
@@ -8,5 +9,18 @@ Gérer les blocages et recalages
 définir des vitesses en SI
 polling à 20ms (par une commande système os.system(blabla))
 faire une fonction carto
-faire une fonction de logging
+faire une fonction de logging ==> OK, reste à lister ce qu'on veut enregistrer
 faire un simulateur de déplacement
+
+%%%%%%%%%% flux à enregistrer
+%de base
+position.X
+position.Y
+position.alpha
+%asservissement
+asserv.TgtX
+asserv.TgtY
+asserv.Type
+asserv.Distance
+asserv.DeltaAngle
+asserv.Converge
