@@ -2,6 +2,7 @@
 """ les #define en python, c'est ici que ca se passe"""
 from math import pi
 
+CIBLE = 'ev33'
 ''' Constantes de machines à état d'actionneurs'''
 LOCK_NEW = 0
 LOCK_UNLOCK = 1

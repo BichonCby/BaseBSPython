@@ -1,7 +1,9 @@
 # -*-coding:Latin-1 -*
 from ev3dev2  import get_current_platform
 from Definitions import *
-if get_current_platform() != 'fake':
+
+
+if get_current_platform() == CIBLE:
     from ev3dev2.display import Display
     import ev3dev2.fonts as fonts
 
@@ -22,7 +24,7 @@ class Robot:
         self.Score = 10
         self.StepTime = 0.02 # pas de calcul de la s�quence
         self.platform = get_current_platform()
-        if self.platform != 'fake':
+        if self.platform == CIBLE:
             self.display = Display()
             self.myfont = fonts.load('charBI24')
     def SetColor(self,coul):
@@ -31,7 +33,7 @@ class Robot:
         else:
             print('S�rieux?, mais tu connais pas les couleurs de cette ann�e ou quoi???')
     def DisplayScore(self):
-        if self.platform != 'fake':
+        if self.platform == CIBLE:
             #self.display.clear()
             txt = 'score'
             #self.display.text_grid(txt,False,2,1,font=self.myfont)
@@ -39,11 +41,7 @@ class Robot:
             #print('score = ',self.Score)
         pass
     def DisplayPos(self,x,y,alpha):
-        if self.platform == 'fake':
-            pass
-            #print('x, y, a =',str(x),str(y),str(alpha))
-        else:
-
+        if self.platform == CIBLE:
             self.display.clear()
             txt = 'x='+str(int(x))
             self.display.text_grid(txt,False,2,1,font=self.myfont)

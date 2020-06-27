@@ -1,5 +1,12 @@
 # BaseBSPython
 logiciel de base du soft pyhton pour ev3dev. Sera à instancier pour chaque robot
+
+# Installation de la carte SD
+https://www.ev3dev.org/docs/getting-started/#step-2-flash-the-sd-card
+Etcher n'a pas fonctionné sur mon PC windows 10 (écran bleu). Win32DiskImager a fonctionné
+l'image à écrire est la suivante : ev3dev-stretch-ev3-generic-2019-10-23.img
+Une fois l'image écrite, insérer la microSD (classe A1 SDHC) et démarrer l'EV3. Le premier démarrage est long, c'est normal.
+
 # Astuces Git
 On utilise Visual Studio Code
 Installer Visual Studio Code

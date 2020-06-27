@@ -29,10 +29,10 @@ class MatchRobot(Thread):
         self.VaChercherBonheur()
 
     def ActivateMachin(self):
-        #self.m.GoFor(200,0,0.1,1000)
+        self.m.GoFor(200,0,0.1,1000)
         #self.m.GoBack(300,200,10,1000)
         pass
     def VaChercherBonheur(self):
         #self.act.OpenDoor('Right')
-        #self.m.DontMove(100)
+        self.m.DontMove(100)
         pass

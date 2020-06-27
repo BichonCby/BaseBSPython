@@ -59,7 +59,7 @@ class DureeMatch(Thread):
         robot.MatchEnCours = True
         top = time.time()
         while top-debut < 10 and sensorMgt.BAU == False:
-            time.sleep(0.1)
+            time.sleep(1)
             top = time.time()
         robot.MatchEnCours = False
         print('fin du match',  str(int(time.time()-self.debut)))
@@ -74,6 +74,7 @@ class Sequence(Thread):
     def run(self):
         """ Le code à executer quand le thread est lancé """
         print('Avant la tirette')
+        trace.Log('X;Y;A\n')
         while robot.MatchEnCours == False:
             # avant la tirette
             top = time.time()
@@ -90,26 +91,48 @@ class Sequence(Thread):
             time.sleep(max(0,robot.StepTime - (time.time()-top)))
         # ####################################""
         # le match a commencé
-        print ('La tirette est tirée')
+        print ('La tirette est tiree')
+        debut = time.time()
         while robot.MatchEnCours == True:
             # juste apr�s la tirette
             top = time.time()
             #print(',', end='')
             sensorMgt.ReadEncoder()
+            duration = (time.time()-top)
+            trace.Log('sensorMgt.ReadEncoder()%d\n' %(duration*1000))
+            top = time.time()
             sensorMgt.ReadTCHMUX()
+            duration = (time.time()-top)
+            trace.Log('sensorMgt.ReadTCHMUX()%d\n' %(duration*1000))
+            top = time.time()
             position.CalculPosition()
+            duration = (time.time()-top)
+            trace.Log('position.CalculPosition()%d\n' %(duration*1000))
+            top = time.time()
             robot.DisplayPos(position.X,position.Y,position.angle)
+            duration = (time.time()-top)
+            trace.Log('robot.DisplayPos(position.X,position.Y,position.angle)%d\n' %(duration*1000))
+            top = time.time()
             asserv.CalculAsserv()
+            duration = (time.time()-top)
+            trace.Log('asserv.CalculAsserv()%d\n' %(duration*1000))
+            top = time.time()
             pass # rajouter tout ce qui doit se passer pendant le match
+            duration = (time.time()-top)
+            trace.Log('pass%d\n' %(duration*1000))
             self.cptseq = self.cptseq+1
             if self.cptseq == 10:# une fois sur x, pour alléger
                 self.cptseq = 0
                 #robot.DisplayScore()
             # if faut faire un test pour voir si on tient les 20ms
-            time.sleep(max(0,robot.StepTime - (time.time()-top)))
+            #trace.Log('%.3f;%.1f;%.1f;%.1f\n' %(time.time()-debut,position.X,position.Y,position.angle))
+            duration = (time.time()-top)
+            trace.Log('%d\n' %(duration*1000))
+            time.sleep(max(0,0.02-duration))#max(0,robot.StepTime - (time.time()-top)))
         # ####################################""
         # le match est termin�
         print('La match est fini')
+        trace.Close();
         robot.DisplayScore()
         while sensorMgt.Tirette == False:
             # on n'arr�te le programme que si on remet la tirette
@@ -123,8 +146,8 @@ sensorMgt.ReadTCHMUX()
 Duree = DureeMatch()
 Seq = Sequence()
 #lancement du thread de temps de match
-trace.Log('voilà')
-trace.Close()
+#trace.Log('voilà')
+#trace.Close()
 Duree.start()
 Seq.start()
 InitRobot() # phase d'init, tests actionneurs
@@ -150,7 +173,7 @@ if platform == 'fake': # on est sur PC
     time.sleep(2)
     sensorMgt.Tirette=True # pour arreter le programme
 else:
-    time.sleep(20)
+    time.sleep(2)
 #position.SetPosition(20,30,25)
 #mov.GoFor(400,400,0.02,5)
 #mov.GoFor(400,500,0.02,5)

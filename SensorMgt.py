@@ -30,11 +30,12 @@ class SensorMgt:
         self.bouton = False
         #print(str(self.CapteurTirette))
         if self.platform != 'fake':
-            if self.CapteurTirette.value() == 1:
-                self.Tirette = False
+            print(str(self.CapteurTirette.value(0)))
+            if self.CapteurTirette.value(0) == 0:
+                self.Tirette = True
             else:
                 pass
-                self.Tirette = True
+                self.Tirette = False
     def ReadEncoder(self):
         #lecture des capteurs de rotation pour la position
         if (self.platform != 'fake'):
